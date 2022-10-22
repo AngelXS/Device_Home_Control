@@ -3,10 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../App.css'
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 const TablaControl = (props) => {
     const navigate = useNavigate();
-    const [ desh, setDesh] = useState('true');
     const { registros, removeFromDom, setRegistros } = props;
     const borrarAutor = (_id) => {
         axios.delete('http://192.168.100.73:8011/api/ip/'+_id+'/delete')
@@ -16,14 +14,13 @@ const TablaControl = (props) => {
             .catch(err => console.error(err));
     }
     const editar = (id) => {
-        navigate('/autor/'+id+'/edit');
+        navigate('/registro/'+id+'/edit');
     }
     const actualizarEstado = (registro) => {
         axios.put('http://192.168.100.73:8011/api/ip/'+registro._id+'/'+registro.ip+'/ping/edit')
             .then(res => {
                 axios.get('http://192.168.100.73:8011/api/ips')
                     .then(res=>{
-                        setDesh('false');
                         setRegistros(res.data);
                     } )
                     .catch(err=> console.log(err));
